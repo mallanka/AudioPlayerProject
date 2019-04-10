@@ -5,7 +5,7 @@ namespace AudioPlayerProject
     class Player
     {
         private bool _playing = false;
-        private int volume = 50;
+        private int _volume = 50;
         public const int MaxVolume = 100;
         public bool IsLock = false;
         public Song[] Songs;
@@ -20,20 +20,20 @@ namespace AudioPlayerProject
 
         public int Volume
         {
-            get { return volume; }
+            get { return _volume; }
             set
             {
                 if (value > MaxVolume)
                 {
-                    volume = MaxVolume;
+                    _volume = MaxVolume;
                 }
                 else if (value < 0)
                 {
-                    volume = 0;
+                    _volume = 0;
                 }
                 else
                 {
-                    volume = value;
+                    _volume = value;
                 }
             }
         }
