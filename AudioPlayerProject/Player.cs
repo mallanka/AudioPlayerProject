@@ -4,17 +4,17 @@ namespace AudioPlayerProject
 {
     class Player
     {
+        private bool _playing = false;
         private int volume = 50;
         public const int MaxVolume = 100;
         public bool IsLock = false;
         public Song[] Songs;
-        private bool playing = false;
 
         public bool Playing
         {
             get
             {
-                return playing;
+                return _playing;
             }
         }
 
@@ -87,20 +87,20 @@ namespace AudioPlayerProject
         {
             if (IsLock == false)
             {
-                playing = true;
+                _playing = true;
                 Console.WriteLine("playing started");
             }
-            return Playing;
+            return _playing;
         }
 
         public bool Stop()
         {
-            if (IsLock == false && playing == true)
+            if (IsLock == false && _playing == true)
             {
-                playing = false;
+                _playing = false;
                 Console.WriteLine("playing stopped");
             }
-            return Playing;
+            return _playing;
         }
     }
 }
