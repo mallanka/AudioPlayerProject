@@ -8,7 +8,7 @@ namespace AudioPlayerProject
         private int _volume = 50;
         public const int MaxVolume = 100;
         public bool IsLock = false;
-        public Song[] Songs;
+        public Song[] Songs = new Song[0];
 
         public bool Playing
         {
@@ -42,8 +42,8 @@ namespace AudioPlayerProject
         {
             for (int i = 0; i < Songs.Length; i++)
             {
-                Console.WriteLine(Songs[i].Title);
-                System.Threading.Thread.Sleep(2000);
+                Console.WriteLine(Songs[i].Title + " " + Songs[i].Artist.Name + " " + Songs[i].Duration);
+                System.Threading.Thread.Sleep(Songs[i].Duration);
             }
         }
 
@@ -102,5 +102,15 @@ namespace AudioPlayerProject
             }
             return _playing;
         }
+
+        public void Add(params string[] songList)
+        {
+           Array.Resize(ref Songs, Songs.Length + songList.Length);
+           for (int i = Songs.Length - songList.Length, j = 0; i < Songs.Length; i++, j++)
+           {
+               Songs[i] = new Song();
+               Songs[i].Title = songList[j];
+           }
+        }        
     }
 }

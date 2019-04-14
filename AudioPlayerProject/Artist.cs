@@ -13,5 +13,15 @@ namespace AudioPlayerProject
         public string Country;
         public Song[] Songs;
         public Album Album;
+
+        public Artist()
+        {
+            Name = "unknown_artist";
+        }
+
+        public Artist(string name)
+        {
+            Name = name;
+        }
     }
 }
