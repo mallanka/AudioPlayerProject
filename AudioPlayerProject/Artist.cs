@@ -9,8 +9,19 @@ namespace AudioPlayerProject
     class Artist
     {
         public string Name;
-        string NickName;
-        string Country;
-        Song[] Songs;
+        public string NickName;
+        public string Country;
+        public Song[] Songs;
+        public Album Album;
+
+        public Artist()
+        {
+            Name = "unknown_artist";
+        }
+
+        public Artist(string name)
+        {
+            Name = name;
+        }
     }
 }
