@@ -10,6 +10,6 @@ namespace AudioPlayerProject
     {
         public string Path;
         public string Title;
-        public List<Song> Songs;
+        public List<Song> Songs = new List<Song>();
     }
 }

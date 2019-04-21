@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace AudioPlayerProject
 {
@@ -8,7 +9,7 @@ namespace AudioPlayerProject
         private int _volume = 50;
         public const int MaxVolume = 100;
         public bool IsLock = false;
-        public List<Song> Songs;
+        public Playlist playlist = new Playlist();
 
         public bool Playing
         {
@@ -38,12 +39,16 @@ namespace AudioPlayerProject
             }
         }
 
-        public void Play()
+        public void Play(bool loop = false)
         {
-            for (int i = 0; i < Songs.Length; i++)
+            int loopsCount = loop == false ? 1 : 5;
+            while (loopsCount-- > 0)
             {
-                Console.WriteLine(Songs[i].Title + " " + Songs[i].Artist.Name + " " + Songs[i].Duration);
-                System.Threading.Thread.Sleep(Songs[i].Duration);
+                for (int i = 0; i < playlist.Songs.Count; i++)
+                {
+                    Console.WriteLine(playlist.Songs[i].Title + " " + playlist.Songs[i].Duration);
+                    System.Threading.Thread.Sleep(playlist.Songs[i].Duration);
+                }
             }
         }
 
@@ -103,14 +108,27 @@ namespace AudioPlayerProject
             return _playing;
         }
 
-        public void Add(params string[] songList)
+        public void SongList()
         {
-           Array.Resize(ref Songs, Songs.Length + songList.Length);
-           for (int i = Songs.Length - songList.Length, j = 0; i < Songs.Length; i++, j++)
-           {
-               Songs[i] = new Song();
-               Songs[i].Title = songList[j];
-           }
-        }        
+            foreach (Song song in playlist.Songs)
+            {
+                if (song.Like == true)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine(song.Title);
+                    Console.ResetColor();
+                }
+                else if (song.Like == false)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(song.Title);
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.WriteLine(song.Title);
+                }
+            }
+        }
     }
 }
