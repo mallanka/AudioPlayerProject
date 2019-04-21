@@ -8,7 +8,7 @@ namespace AudioPlayerProject
         private int _volume = 50;
         public const int MaxVolume = 100;
         public bool IsLock = false;
-        public Song[] Songs = new Song[0];
+        public List<Song> Songs;
 
         public bool Playing
         {

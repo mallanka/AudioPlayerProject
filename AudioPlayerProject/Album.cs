@@ -11,6 +11,6 @@ namespace AudioPlayerProject
         public string Name;
         public string Path;
         public int Year;
-        public Song[] Songs;
+        public List<Song> Songs;
     }
 }

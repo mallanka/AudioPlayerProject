@@ -11,7 +11,7 @@ namespace AudioPlayerProject
         public string Name;
         public string NickName;
         public string Country;
-        public Song[] Songs;
+        public List<Song> Songs;
         public Album Album;
 
         public Artist()
