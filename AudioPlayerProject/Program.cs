@@ -8,7 +8,6 @@ namespace AudioPlayerProject
 {
     class Program
     {
-        static Random random = new Random();
         static void Main(string[] args)
         {
             Player player = new Player();
@@ -28,13 +27,13 @@ namespace AudioPlayerProject
 
             Console.WriteLine();
 
-            Shuffle(player.playlist.Songs);
+            player.playlist.Shuffle();
 
             player.Play(false);
 
             Console.WriteLine();
 
-            SortByTitle(player.playlist);
+            player.playlist.SortByTitle();
 
             player.Play(false);
 
@@ -52,19 +51,6 @@ namespace AudioPlayerProject
             {
                 playlist.Songs.Add(songList[i]);
             }
-        }
-        public static void Shuffle(List<Song> songs)        //B7-Player1/2. SongsListShuffle
-        {
-            for (int i = 0; i < songs.Count; i++)
-            {
-                songs.Insert(random.Next(1, songs.Count + 1), songs[0]);
-                songs.RemoveAt(0);
-            }
-        }
-
-        public static void SortByTitle(Playlist playlist)               //B7-Player2/2. SongListSort
-        {
-            playlist.Songs = playlist.Songs.OrderBy(si => si.Title).ToList();
         }
     }
 }
