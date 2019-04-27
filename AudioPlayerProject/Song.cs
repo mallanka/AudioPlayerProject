@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace AudioPlayerProject
 {
-    enum genre
+    [Flags] public enum genre
     {
-        Pop = 0b00000001,
-        NotPop = 0b00000010,
-        AlmostPop = 0b00000100,
-        MoreThanPop = 0b00001000
+        Pop = 1,
+        NotPop = 2,
+        AlmostPop = 4,
+        MoreThanPop = 8
     };
-    class Song
+
+    public class Song
     {
         public int Duration;
         public string Title;
@@ -24,14 +25,10 @@ namespace AudioPlayerProject
         public Album Album;
         public bool? Like = null;
 
-        public string GetLirycs
-        {
-            set { Lyrics = value; }
-            get { return Lyrics = Title + ": " + Lyrics; }
-        }
         public Song(string title)
         {
             Title = title;
+            Genre = genre.Pop;
         }
 
         public void SetLike()
@@ -42,6 +39,17 @@ namespace AudioPlayerProject
         public void SetDislike()
         {
             Like = false;
+        }
+
+        //L9-HW-Player-3/3. Song Deconstruction
+        public void Deconstruct(out int duration, out string title, out string path,
+            out string lyrics, out Enum songGenre)
+        {
+            duration = Duration;
+            title = Title;
+            path = Path;
+            lyrics = Lyrics;
+            songGenre = Genre;
         }
     }
 }

@@ -8,7 +8,6 @@ namespace AudioPlayerProject
 {
     class Program
     {
-        static Random random = new Random();
         static void Main(string[] args)
         {
             Player player = new Player();
@@ -22,29 +21,30 @@ namespace AudioPlayerProject
                 new Song("Song6"),
                 new Song("Song7"),
                 new Song("Song8"),
-                new Song("Song9"));
+                new Song("Song999999999999999999999999999"));
 
-            player.Play(false);
 
-            Console.WriteLine();
-
-            Shuffle(player.playlist.Songs);
-
-            player.Play(false);
+            player.Play(genre.Pop);
 
             Console.WriteLine();
 
-            SortByTitle(player.playlist);
+            player.playlist.Songs = player.playlist.Songs.ShuffleExtension();
 
-            player.Play(false);
+            player.Play(genre.Pop);
 
-            Song song = new Song("Song0");
-            song.GetLirycs = "baby shark";
-            Console.WriteLine(song.GetLirycs);
+            Console.WriteLine();
 
-            player.playlist.Songs[2].SetLike();
-            player.playlist.Songs[6].SetDislike();
-            player.SongList();
+            player.playlist.Songs = player.playlist.Songs.SortExtension();
+
+            player.Play(genre.Pop);
+
+            //L9-HW-Player-3/3. Song Deconstruction
+            var song = new Song("SongWithDeconstruct");
+            var (newDuration,_, newPath, newLyrics,_) = song;
+            newDuration = 400;
+            newPath = "highway to hell";
+            newLyrics = "tears, crying";
+            Console.WriteLine(newLyrics);
         }
         public static void Add(Playlist playlist, params Song[] songList)
         {
@@ -52,19 +52,6 @@ namespace AudioPlayerProject
             {
                 playlist.Songs.Add(songList[i]);
             }
-        }
-        public static void Shuffle(List<Song> songs)        //B7-Player1/2. SongsListShuffle
-        {
-            for (int i = 0; i < songs.Count; i++)
-            {
-                songs.Insert(random.Next(1, songs.Count + 1), songs[0]);
-                songs.RemoveAt(0);
-            }
-        }
-
-        public static void SortByTitle(Playlist playlist)               //B7-Player2/2. SongListSort
-        {
-            playlist.Songs = playlist.Songs.OrderBy(si => si.Title).ToList();
         }
     }
 }

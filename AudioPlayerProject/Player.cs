@@ -39,15 +39,14 @@ namespace AudioPlayerProject
             }
         }
 
-        public void Play(bool loop = false)
+        public void Play(Enum filter)               //BL8-Player4/4. FilterByGenre
         {
-            int loopsCount = loop == false ? 1 : 5;
-            while (loopsCount-- > 0)
+            foreach (var song in playlist.Songs)
             {
-                for (int i = 0; i < playlist.Songs.Count; i++)
+                if (song.Genre.HasFlag(filter))     //BL8-Player4/4. FilterByGenre
                 {
-                    Console.WriteLine(playlist.Songs[i].Title + " " + playlist.Songs[i].Duration);
-                    System.Threading.Thread.Sleep(playlist.Songs[i].Duration);
+                    Console.WriteLine(song.Title.CutStringExtension() + " " + song.Duration);
+                    System.Threading.Thread.Sleep(song.Duration);
                 }
             }
         }
@@ -115,18 +114,18 @@ namespace AudioPlayerProject
                 if (song.Like == true)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine(song.Title);
+                    Console.WriteLine(song.Title.CutStringExtension());
                     Console.ResetColor();
                 }
                 else if (song.Like == false)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(song.Title);
+                    Console.WriteLine(song.Title.CutStringExtension());
                     Console.ResetColor();
                 }
                 else
                 {
-                    Console.WriteLine(song.Title);
+                    Console.WriteLine(song.Title.CutStringExtension());
                 }
             }
         }
