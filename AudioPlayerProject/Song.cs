@@ -41,7 +41,6 @@ namespace AudioPlayerProject
             Like = false;
         }
 
-        //L9-HW-Player-3/3. Song Deconstruction
         public void Deconstruct(out int duration, out string title, out string path,
             out string lyrics, out Enum songGenre)
         {
@@ -50,6 +49,16 @@ namespace AudioPlayerProject
             path = Path;
             lyrics = Lyrics;
             songGenre = Genre;
+        }
+
+        public static void GetSongData(Song song)
+        {
+            var (newDuration, newTitle, newPath, newLyrics, newSongGenre) = song;
+            Console.WriteLine($"{newTitle}:\n" +
+                              $"Duration: {newDuration}\n" +
+                              $"Path: {newPath}\n" +
+                              $"Lyrics: {newLyrics}\n" +
+                              $"Genre: {newSongGenre}");
         }
     }
 }

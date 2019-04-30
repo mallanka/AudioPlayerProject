@@ -39,11 +39,11 @@ namespace AudioPlayerProject
             }
         }
 
-        public void Play(Enum filter)               //BL8-Player4/4. FilterByGenre
+        public void Play(Enum filter)
         {
             foreach (var song in playlist.Songs)
             {
-                if (song.Genre.HasFlag(filter))     //BL8-Player4/4. FilterByGenre
+                if (song.Genre.HasFlag(filter))
                 {
                     Console.WriteLine(song.Title.CutStringExtension() + " " + song.Duration);
                     System.Threading.Thread.Sleep(song.Duration);
