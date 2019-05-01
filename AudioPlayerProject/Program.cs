@@ -10,13 +10,13 @@ namespace AudioPlayerProject
     {
         static void Main(string[] args)
         {
-
-        }
-        public static void Add(Playlist playlist, params Song[] songList)
-        {
-            for (int i = 0; i < songList.Length; i++)
+            Player player = new Player(new ClassicSkin());
+            player.Add(new Song("Song1"), new Song("Song2"), new Song("Song3"));
+            player.SongList();
+            while (true)
             {
-                playlist.Songs.Add(songList[i]);
+                player.ChangeSkin();
+                player.SongList();
             }
         }
     }
