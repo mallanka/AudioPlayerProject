@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace AudioPlayerProject
 {
@@ -10,6 +11,14 @@ namespace AudioPlayerProject
         public const int MaxVolume = 100;
         public bool IsLock = false;
         public Playlist playlist = new Playlist();
+        public Skin mySkin;
+
+        public Player(Skin mySkin)
+        {
+            this.mySkin = mySkin;
+            this.mySkin.Clear();
+            this.mySkin.Render();
+        }
 
         public bool Playing
         {
@@ -128,6 +137,37 @@ namespace AudioPlayerProject
                     Console.WriteLine(song.Title.CutStringExtension());
                 }
             }
+        }
+
+        public void Add(params Song[] songList)
+        {
+            for (int i = 0; i < songList.Length; i++)
+            {
+                this.playlist.Songs.Add(songList[i]);
+            }
+        }
+        public void ChangeSkin()
+        {
+            mySkin = new ClassicSkin();
+            Console.WriteLine("what skin you want to apply? write a number" +
+                              "\n1. Classic skin" +
+                              "\n2. Color skin" +
+                              "\n3. Font size skin");
+            switch (Console.ReadKey().Key)
+            {
+                case ConsoleKey.D1:
+                default:
+                    mySkin = new ClassicSkin();
+                    break;
+                case ConsoleKey.D2:
+                    mySkin = new ColorSkin();
+                    break;
+                case ConsoleKey.D3:
+                    mySkin = new EyesSkin();
+                    break;
+            }
+            mySkin.Render();
+            mySkin.Clear();
         }
     }
 }
