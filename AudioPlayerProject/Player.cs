@@ -1,22 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace AudioPlayerProject
 {
-    class Player
+    class Player<T>
     {
         private bool _playing = false;
         private int _volume = 50;
         public const int MaxVolume = 100;
         public bool IsLock = false;
-        public Playlist playlist = new Playlist();
+        public Playlist<T> playlist = new Playlist<T>();
         public Skin mySkin;
 
-        public Player(Skin mySkin)
+        public Player()
         {
-            this.mySkin = mySkin;
-            this.mySkin.Clear();
+            this.mySkin = new ClassicSkin();
             this.mySkin.Render();
         }
 
@@ -50,12 +51,23 @@ namespace AudioPlayerProject
 
         public void Play(Enum filter)
         {
-            foreach (var song in playlist.Songs)
+            foreach (var file in playlist.FileList)
             {
-                if (song.Genre.HasFlag(filter))
+                switch (file)
                 {
-                    Console.WriteLine(song.Title.CutStringExtension() + " " + song.Duration);
-                    System.Threading.Thread.Sleep(song.Duration);
+                    case Song x when x.Genre.HasFlag(filter):
+                        {
+                            Console.WriteLine(x.Title.CutStringExtension() + " " + x.Duration);
+                            System.Threading.Thread.Sleep(x.Duration);
+                            break;
+                        }
+                    case Video x:
+                        {
+                            Console.WriteLine(x.Picture);
+                            Console.WriteLine(x.Title.CutStringExtension() + " " + x.Duration);
+                            System.Threading.Thread.Sleep(x.Duration);
+                            break;
+                        }
                 }
             }
         }
@@ -116,34 +128,62 @@ namespace AudioPlayerProject
             return _playing;
         }
 
-        public void SongList()
+        public void List()
         {
-            foreach (Song song in playlist.Songs)
+            foreach (var file in playlist.FileList)
             {
-                if (song.Like == true)
+                switch (file)
                 {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine(song.Title.CutStringExtension());
-                    Console.ResetColor();
+                    case Song x:
+                    {
+                        if (x.Like == true)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine(x.Title.CutStringExtension());
+                            Console.ResetColor();
+                        }
+                        else if (x.Like == false)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine(x.Title.CutStringExtension());
+                            Console.ResetColor();
+                        }
+                        else
+                        {
+                            Console.WriteLine(x.Title.CutStringExtension());
+                        }
+                        break;
+                    }
+                    case Video x:
+                    {
+                        if (x.Like == true)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine(x.Title.CutStringExtension());
+                            Console.ResetColor();
+                        }
+                        else if (x.Like == false)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine(x.Title.CutStringExtension());
+                            Console.ResetColor();
+                        }
+                        else
+                        {
+                            Console.WriteLine(x.Title.CutStringExtension());
+                        }
+                        break;
+                    }
                 }
-                else if (song.Like == false)
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(song.Title.CutStringExtension());
-                    Console.ResetColor();
-                }
-                else
-                {
-                    Console.WriteLine(song.Title.CutStringExtension());
-                }
+                
             }
         }
 
-        public void Add(params Song[] songList)
+        public void AddFileToPlaylist(params T[] list)
         {
-            for (int i = 0; i < songList.Length; i++)
+            for (int i = 0; i < list.Length; i++)
             {
-                this.playlist.Songs.Add(songList[i]);
+                playlist.FileList.Add(list[i]);
             }
         }
         public void ChangeSkin()
@@ -169,5 +209,6 @@ namespace AudioPlayerProject
             mySkin.Render();
             mySkin.Clear();
         }
+
     }
 }
