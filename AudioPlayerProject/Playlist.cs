@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace AudioPlayerProject
 {
-    class Playlist<T>
+    class Playlist
     {
         public string Path;
         public string Title;
-        public List<T> FileList = new List<T>();
+        public List<Song> FileList = new List<Song>();
     }
 }
