@@ -8,13 +8,13 @@ namespace AudioPlayerProject
 {
     public static class ExtentionMethods
     {
-        public static List<File> SortExtension(this List<File> L)
+        public static List<Song> SortExtension(this List<Song> L)
         {
             return L = L.OrderBy(si => si.Title).ToList();
         }
         static Random random = new Random();
 
-        public static List<File> ShuffleExtension(this List<File> l)
+        public static List<Song> ShuffleExtension(this List<Song> l)
         {
             for (int i = 0; i < l.Count; i++)
             {

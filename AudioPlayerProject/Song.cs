@@ -40,7 +40,7 @@ namespace AudioPlayerProject
             Like = false;
         }
 
-        public virtual void GetData()
+        public void GetData()
         {
             Console.WriteLine($"{Title}:\n" +
                               $"Duration: {Duration}\n" +
