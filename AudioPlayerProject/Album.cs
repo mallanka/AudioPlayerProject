@@ -8,9 +8,9 @@ namespace AudioPlayerProject
 {
     public class Album
     {
-        public string Name;
-        public string Path;
-        public int Year;
-        public List<Song> Songs;
+        //public string Name;
+        //public string Path;
+        //public int Year;
+        //public List<Song> Songs;
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AudioPlayerProject
 {
-    class Playlist
+    public class Playlist
     {
         public string Path;
         public string Title;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace AudioPlayerProject
 {
@@ -13,17 +14,19 @@ namespace AudioPlayerProject
         AlmostPop = 4,
         MoreThanPop = 8
     };
-
+    [Serializable]
     public class Song
     {
         public string Lyrics;
-        public genre Genre;
-        public Artist Artist;
-        public Album Album;
         public int Duration;
         public string Title;
         public string Path;
         public bool? Like = null;
+        public genre Genre;
+        public Artist Artist;
+        public Album Album;
+
+        public Song() { }
 
         public Song(string title)
         {
@@ -39,7 +42,7 @@ namespace AudioPlayerProject
         {
             Like = false;
         }
-
+        
         public void GetData()
         {
             Console.WriteLine($"{Title}:\n" +

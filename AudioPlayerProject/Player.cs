@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace AudioPlayerProject
 {
@@ -171,7 +172,35 @@ namespace AudioPlayerProject
             mySkin.Render();
             mySkin.Clear();
         }
+        public void ClearList()                 //AL6-Player1/2-AudioFiles
+        {
+            playlist.FileList.Clear();
+        }
 
-        
+        public void LoadSongs(string path)      //AL6-Player1/2-AudioFiles
+        {
+            foreach (var songTitle in Directory.GetFiles(path))
+            {
+                playlist.FileList.Add(new Song(songTitle.Replace(path, "").Replace(".wav", "")) { Path = path });
+            }
+        }
+
+        public void SaveAsPlaylist(string path)                //AL6-Player2/2-PlaylistSrlz
+        {
+            XmlSerializer xmlPlaylist = new XmlSerializer(typeof(List<Song>));
+            using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
+            {
+                xmlPlaylist.Serialize(fs, playlist.FileList);
+            }
+        }
+
+        public void LoadPlaylist(string path)                  //AL6-Player2/2-PlaylistSrlz
+        {
+            XmlSerializer xmlPlaylist = new XmlSerializer(typeof(List<Song>));
+            using (FileStream fs = new FileStream(path, FileMode.Open))
+            {
+                playlist.FileList = (List<Song>)xmlPlaylist.Deserialize(fs);
+            }
+        }
     }
 }
