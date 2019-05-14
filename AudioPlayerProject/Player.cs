@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace AudioPlayerProject
 {
-    class Player<T>
+    class Player
     {
         private bool _playing = false;
         private int _volume = 50;
         public const int MaxVolume = 100;
         public bool IsLock = false;
-        public Playlist<T> playlist = new Playlist<T>();
+        public Playlist playlist = new Playlist();
         public Skin mySkin;
 
         public Player()
@@ -23,10 +24,7 @@ namespace AudioPlayerProject
 
         public bool Playing
         {
-            get
-            {
-                return _playing;
-            }
+            get { return _playing; }
         }
 
         public int Volume
@@ -53,22 +51,8 @@ namespace AudioPlayerProject
         {
             foreach (var file in playlist.FileList)
             {
-                switch (file)
-                {
-                    case Song x when x.Genre.HasFlag(filter):
-                        {
-                            Console.WriteLine(x.Title.CutStringExtension() + " " + x.Duration);
-                            System.Threading.Thread.Sleep(x.Duration);
-                            break;
-                        }
-                    case Video x:
-                        {
-                            Console.WriteLine(x.Picture);
-                            Console.WriteLine(x.Title.CutStringExtension() + " " + x.Duration);
-                            System.Threading.Thread.Sleep(x.Duration);
-                            break;
-                        }
-                }
+                Console.WriteLine(file.Title.CutStringExtension() + " " + file.Duration);
+                System.Threading.Thread.Sleep(file.Duration);
             }
         }
 
@@ -115,6 +99,7 @@ namespace AudioPlayerProject
                 _playing = true;
                 Console.WriteLine("playing started");
             }
+
             return _playing;
         }
 
@@ -125,6 +110,7 @@ namespace AudioPlayerProject
                 _playing = false;
                 Console.WriteLine("playing stopped");
             }
+
             return _playing;
         }
 
@@ -132,60 +118,35 @@ namespace AudioPlayerProject
         {
             foreach (var file in playlist.FileList)
             {
-                switch (file)
+                if (file.Like == true)
                 {
-                    case Song x:
-                    {
-                        if (x.Like == true)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine(x.Title.CutStringExtension());
-                            Console.ResetColor();
-                        }
-                        else if (x.Like == false)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine(x.Title.CutStringExtension());
-                            Console.ResetColor();
-                        }
-                        else
-                        {
-                            Console.WriteLine(x.Title.CutStringExtension());
-                        }
-                        break;
-                    }
-                    case Video x:
-                    {
-                        if (x.Like == true)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine(x.Title.CutStringExtension());
-                            Console.ResetColor();
-                        }
-                        else if (x.Like == false)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine(x.Title.CutStringExtension());
-                            Console.ResetColor();
-                        }
-                        else
-                        {
-                            Console.WriteLine(x.Title.CutStringExtension());
-                        }
-                        break;
-                    }
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine(file.Title.CutStringExtension());
+                    Console.ResetColor();
                 }
-                
+                else if (file.Like == false)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(file.Title.CutStringExtension());
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.WriteLine(file.Title.CutStringExtension());
+                }
             }
         }
 
-        public void AddFileToPlaylist(params T[] list)
+
+
+        public void AddFileToPlaylist(params Song[] list)
         {
             for (int i = 0; i < list.Length; i++)
             {
                 playlist.FileList.Add(list[i]);
             }
         }
+
         public void ChangeSkin()
         {
             mySkin = new ClassicSkin();
@@ -206,9 +167,9 @@ namespace AudioPlayerProject
                     mySkin = new EyesSkin();
                     break;
             }
+
             mySkin.Render();
             mySkin.Clear();
         }
-
     }
 }

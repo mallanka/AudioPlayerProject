@@ -14,23 +14,37 @@ namespace AudioPlayerProject
         MoreThanPop = 8
     };
 
-    public class Song : File
+    public class Song
     {
         public string Lyrics;
         public genre Genre;
         public Artist Artist;
         public Album Album;
+        public int Duration;
+        public string Title;
+        public string Path;
+        public bool? Like = null;
 
         public Song(string title)
         {
             Title = title;
+        }        
+
+        public void SetLike()
+        {
+            Like = true;
         }
 
-        public override void GetData()
+        public void SetDislike()
         {
-            base.GetData();
-            Console.WriteLine($"Lyrics: {Lyrics}\n" +
-                              $"Genre: {Genre}");
+            Like = false;
+        }
+
+        public virtual void GetData()
+        {
+            Console.WriteLine($"{Title}:\n" +
+                              $"Duration: {Duration}\n" +
+                              $"Path: {Path}\n");
         }
     }
 }
