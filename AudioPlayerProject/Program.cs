@@ -14,6 +14,7 @@ namespace AudioPlayerProject
             {
                 player.LoadSongs("f://m//");
                 player.Play();
+                player.Dispose();
             }
         }
     }

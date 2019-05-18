@@ -43,6 +43,7 @@ namespace AudioPlayerProject
         {
             this.mySkin = new ClassicSkin();
             this.mySkin.Render();
+            soundPlayer = new SoundPlayer();
         }
 
         public bool Playing
@@ -75,7 +76,7 @@ namespace AudioPlayerProject
             foreach (var file in playlist.FileList)
             {
                 Console.WriteLine(file.Title.CutStringExtension());
-                soundPlayer = new SoundPlayer(file.Path+file.Title+".wav");
+                soundPlayer.SoundLocation = file.Path+file.Title+".wav";
                 soundPlayer.PlaySync();
             }
         }
