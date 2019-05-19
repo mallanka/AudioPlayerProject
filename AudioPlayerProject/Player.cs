@@ -86,19 +86,16 @@ namespace AudioPlayerProject
         public void VolumeUp()
         {
             Volume += 5;
-            VolumeChangedEvent();
         }
 
         public void VolumeDown()
         {
             Volume -= 5;
-            VolumeChangedEvent();
         }
 
         public void VolumeChanged(int step)
         {
             Volume = step;
-            VolumeChangedEvent();
         }
         public event PlayerDelegate PlayerLockedEvent;
         public void Lock()

@@ -20,7 +20,7 @@ namespace AudioPlayerProject
             Console.WriteLine("Player is stopped");
         }
     }
-    class SongrPlayEventClass
+    class SongPlayEventClass
     {
         public void Message()
         {

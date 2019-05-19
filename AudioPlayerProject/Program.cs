@@ -12,7 +12,7 @@ namespace AudioPlayerProject
         {
             PlayerStartEventClass playerStartEvent = new PlayerStartEventClass();
             PlayerStopEventClass playerStopEvent = new PlayerStopEventClass();
-            SongrPlayEventClass songPlayEvent = new SongrPlayEventClass();
+            SongPlayEventClass songPlayEvent = new SongPlayEventClass();
             SongListChangedEventClass songListChangedEvent = new SongListChangedEventClass();
             VolumeChangedEventClass volumeChangedEvent = new VolumeChangedEventClass();
             PlayerLockedEventClass playerLockedEvent = new PlayerLockedEventClass();
