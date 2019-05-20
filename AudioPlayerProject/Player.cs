@@ -50,7 +50,7 @@ namespace AudioPlayerProject
         {
             get { return _playing; }
         }
-
+        public event PlayerDelegate VolumeChangedEvent;
         public int Volume
         {
             get { return _volume; }
@@ -68,9 +68,10 @@ namespace AudioPlayerProject
                 {
                     _volume = value;
                 }
+                VolumeChangedEvent();
             }
         }
-
+        public event PlayerDelegate SongPlayEvent;
         public void Play()
         {
             foreach (var file in playlist.FileList)
@@ -78,65 +79,60 @@ namespace AudioPlayerProject
                 Console.WriteLine(file.Title.CutStringExtension());
                 soundPlayer.SoundLocation = file.Path+file.Title+".wav";
                 soundPlayer.PlaySync();
+                SongPlayEvent();
             }
         }
 
         public void VolumeUp()
         {
             Volume += 5;
-            Console.WriteLine("Volume was increased: " + Volume);
         }
 
         public void VolumeDown()
         {
             Volume -= 5;
-            Console.WriteLine("Volume was reduced: " + Volume);
         }
 
         public void VolumeChanged(int step)
         {
             Volume = step;
-            Console.WriteLine("volume was changed: " + Volume);
         }
-
+        public event PlayerDelegate PlayerLockedEvent;
         public void Lock()
         {
             if (IsLock == false)
             {
                 IsLock = true;
-                Console.WriteLine("the player was Locked");
+                PlayerLockedEvent();
             }
         }
-
+        public event PlayerDelegate PlayerUnlockedEvent;
         public void UnLock()
         {
             if (IsLock == true)
             {
                 IsLock = false;
-                Console.WriteLine("the player was UnLocked");
+                PlayerUnlockedEvent();
             }
         }
-
-        public bool Start()
+        public delegate void PlayerDelegate();
+        public event PlayerDelegate PlayerStartEvent; 
+        public void Start()
         {
             if (IsLock == false)
             {
                 _playing = true;
-                Console.WriteLine("playing started");
+                PlayerStartEvent();
             }
-
-            return _playing;
         }
-
-        public bool Stop()
+        public event PlayerDelegate PlayerStopEvent;
+        public void Stop()
         {
             if (IsLock == false && _playing == true)
             {
                 _playing = false;
-                Console.WriteLine("playing stopped");
+                PlayerStopEvent();
             }
-
-            return _playing;
         }
 
         public void List()
@@ -163,13 +159,14 @@ namespace AudioPlayerProject
         }
 
 
-
+        public event PlayerDelegate SongListChangedEvent;
         public void AddFileToPlaylist(params Song[] list)
         {
             for (int i = 0; i < list.Length; i++)
             {
                 playlist.FileList.Add(list[i]);
             }
+            SongListChangedEvent();
         }
 
         public void ChangeSkin()
@@ -199,6 +196,7 @@ namespace AudioPlayerProject
         public void ClearList()                 //AL6-Player1/2-AudioFiles
         {
             playlist.FileList.Clear();
+            SongListChangedEvent();
         }
 
         public void LoadSongs(string path)      //AL6-Player1/2-AudioFiles
@@ -207,6 +205,7 @@ namespace AudioPlayerProject
             {
                 playlist.FileList.Add(new Song(songTitle.Replace(path, "").Replace(".wav", "")) { Path = path });
             }
+            SongListChangedEvent();
         }
 
         public void SaveAsPlaylist(string path)                //AL6-Player2/2-PlaylistSrlz
@@ -225,6 +224,7 @@ namespace AudioPlayerProject
             {
                 playlist.FileList = (List<Song>)xmlPlaylist.Deserialize(fs);
             }
+            SongListChangedEvent();
         }
     }
 }
