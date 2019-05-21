@@ -30,6 +30,10 @@ namespace AudioPlayerProject
         {
             if (!disposed)
             {
+                if (disposing)
+                {
+                    soundPlayer.Dispose();
+                }
                 disposed = true;
             }
         }
