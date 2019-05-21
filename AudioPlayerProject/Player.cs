@@ -19,6 +19,7 @@ namespace AudioPlayerProject
         public Skin mySkin;
         private SoundPlayer soundPlayer;
         private bool disposed = false;
+        public string playingSong;
 
         public delegate void PlayerDelegate();
         public event PlayerDelegate VolumeChangedEvent;
@@ -87,12 +88,15 @@ namespace AudioPlayerProject
 
         public void Play()
         {
-            foreach (var file in playlist.FileList)
+            if (_playing)
             {
-                Console.WriteLine(file.Title.CutStringExtension());
-                soundPlayer.SoundLocation = file.Path + file.Title + ".wav";
-                soundPlayer.PlaySync();
-                SongPlayEvent();
+                foreach (var file in playlist.FileList)
+                {
+                    soundPlayer.SoundLocation = file.Path + file.Title + ".wav";
+                    playingSong = soundPlayer.SoundLocation;
+                    SongPlayEvent();
+                    soundPlayer?.PlaySync();
+                }
             }
         }
 
@@ -146,30 +150,6 @@ namespace AudioPlayerProject
                 PlayerStopEvent();
             }
         }
-
-        public void List()
-        {
-            foreach (var file in playlist.FileList)
-            {
-                if (file.Like == true)
-                {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine(file.Title.CutStringExtension());
-                    Console.ResetColor();
-                }
-                else if (file.Like == false)
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(file.Title.CutStringExtension());
-                    Console.ResetColor();
-                }
-                else
-                {
-                    Console.WriteLine(file.Title.CutStringExtension());
-                }
-            }
-        }
-
 
         
         public void AddFileToPlaylist(params Song[] list)
