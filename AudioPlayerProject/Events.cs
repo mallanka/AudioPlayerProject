@@ -10,6 +10,7 @@ namespace AudioPlayerProject
     {
         public void Message()
         {
+            Console.Clear();
             Console.WriteLine("Player is started");
         }
     }
@@ -17,6 +18,7 @@ namespace AudioPlayerProject
     {
         public void Message()
         {
+            Console.Clear();
             Console.WriteLine("Player is stopped");
         }
     }
@@ -24,6 +26,7 @@ namespace AudioPlayerProject
     {
         public void Message()
         {
+            Console.Clear();
             Console.WriteLine("Song is playing");
         }
     }
@@ -31,6 +34,7 @@ namespace AudioPlayerProject
     {
         public void Message()
         {
+            Console.Clear();
             Console.WriteLine("Playlist was changed");
         }
     }
@@ -38,6 +42,7 @@ namespace AudioPlayerProject
     {
         public void Message()
         {
+            Console.Clear();
             Console.WriteLine("Volume was changed");
         }
     }
@@ -45,6 +50,7 @@ namespace AudioPlayerProject
     {
         public void Message()
         {
+            Console.Clear();
             Console.WriteLine("Player was locked");
         }
     }
@@ -52,6 +58,7 @@ namespace AudioPlayerProject
     {
         public void Message()
         {
+            Console.Clear();
             Console.WriteLine("Player was unlocked");
         }
     }

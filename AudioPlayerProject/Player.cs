@@ -19,6 +19,16 @@ namespace AudioPlayerProject
         public Skin mySkin;
         private SoundPlayer soundPlayer;
         private bool disposed = false;
+        public string playingSong;
+
+        public delegate void PlayerDelegate();
+        public event PlayerDelegate VolumeChangedEvent;
+        public event PlayerDelegate SongPlayEvent;
+        public event PlayerDelegate PlayerLockedEvent;
+        public event PlayerDelegate PlayerUnlockedEvent;
+        public event PlayerDelegate PlayerStartEvent;
+        public event PlayerDelegate PlayerStopEvent;
+        public event PlayerDelegate SongListChangedEvent;
 
         public void Dispose()
         {
@@ -30,6 +40,10 @@ namespace AudioPlayerProject
         {
             if (!disposed)
             {
+                if (disposing)
+                {
+                    soundPlayer.Dispose();
+                }
                 disposed = true;
             }
         }
@@ -50,7 +64,7 @@ namespace AudioPlayerProject
         {
             get { return _playing; }
         }
-        public event PlayerDelegate VolumeChangedEvent;
+
         public int Volume
         {
             get { return _volume; }
@@ -71,15 +85,18 @@ namespace AudioPlayerProject
                 VolumeChangedEvent();
             }
         }
-        public event PlayerDelegate SongPlayEvent;
+
         public void Play()
         {
-            foreach (var file in playlist.FileList)
+            if (_playing)
             {
-                Console.WriteLine(file.Title.CutStringExtension());
-                soundPlayer.SoundLocation = file.Path+file.Title+".wav";
-                soundPlayer.PlaySync();
-                SongPlayEvent();
+                foreach (var file in playlist.FileList)
+                {
+                    soundPlayer.SoundLocation = file.Path + file.Title + ".wav";
+                    playingSong = soundPlayer.SoundLocation;
+                    SongPlayEvent();
+                    soundPlayer?.PlaySync();
+                }
             }
         }
 
@@ -97,7 +114,7 @@ namespace AudioPlayerProject
         {
             Volume = step;
         }
-        public event PlayerDelegate PlayerLockedEvent;
+
         public void Lock()
         {
             if (IsLock == false)
@@ -106,7 +123,7 @@ namespace AudioPlayerProject
                 PlayerLockedEvent();
             }
         }
-        public event PlayerDelegate PlayerUnlockedEvent;
+
         public void UnLock()
         {
             if (IsLock == true)
@@ -115,8 +132,7 @@ namespace AudioPlayerProject
                 PlayerUnlockedEvent();
             }
         }
-        public delegate void PlayerDelegate();
-        public event PlayerDelegate PlayerStartEvent; 
+        
         public void Start()
         {
             if (IsLock == false)
@@ -125,7 +141,7 @@ namespace AudioPlayerProject
                 PlayerStartEvent();
             }
         }
-        public event PlayerDelegate PlayerStopEvent;
+
         public void Stop()
         {
             if (IsLock == false && _playing == true)
@@ -135,31 +151,7 @@ namespace AudioPlayerProject
             }
         }
 
-        public void List()
-        {
-            foreach (var file in playlist.FileList)
-            {
-                if (file.Like == true)
-                {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine(file.Title.CutStringExtension());
-                    Console.ResetColor();
-                }
-                else if (file.Like == false)
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(file.Title.CutStringExtension());
-                    Console.ResetColor();
-                }
-                else
-                {
-                    Console.WriteLine(file.Title.CutStringExtension());
-                }
-            }
-        }
-
-
-        public event PlayerDelegate SongListChangedEvent;
+        
         public void AddFileToPlaylist(params Song[] list)
         {
             for (int i = 0; i < list.Length; i++)
@@ -193,13 +185,13 @@ namespace AudioPlayerProject
             mySkin.Render();
             mySkin.Clear();
         }
-        public void ClearList()                 //AL6-Player1/2-AudioFiles
+        public void ClearList()                 
         {
             playlist.FileList.Clear();
             SongListChangedEvent();
         }
 
-        public void LoadSongs(string path)      //AL6-Player1/2-AudioFiles
+        public void LoadSongs(string path)      
         {
             foreach (var songTitle in Directory.GetFiles(path))
             {
@@ -208,7 +200,7 @@ namespace AudioPlayerProject
             SongListChangedEvent();
         }
 
-        public void SaveAsPlaylist(string path)                //AL6-Player2/2-PlaylistSrlz
+        public void SaveAsPlaylist(string path)                
         {
             XmlSerializer xmlPlaylist = new XmlSerializer(typeof(List<Song>));
             using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
@@ -217,7 +209,7 @@ namespace AudioPlayerProject
             }
         }
 
-        public void LoadPlaylist(string path)                  //AL6-Player2/2-PlaylistSrlz
+        public void LoadPlaylist(string path)                  
         {
             XmlSerializer xmlPlaylist = new XmlSerializer(typeof(List<Song>));
             using (FileStream fs = new FileStream(path, FileMode.Open))
