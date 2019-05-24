@@ -30,10 +30,7 @@ namespace AudioPlayerProject
         {
             if (!disposed)
             {
-                if (disposing)
-                {
-                    soundPlayer.Dispose();
-                }
+                soundPlayer.Dispose();
                 disposed = true;
             }
         }
@@ -80,7 +77,7 @@ namespace AudioPlayerProject
             foreach (var file in playlist.FileList)
             {
                 Console.WriteLine(file.Title.CutStringExtension());
-                soundPlayer.SoundLocation = file.Path+file.Title+".wav";
+                soundPlayer.SoundLocation = file.Path + file.Title + ".wav";
                 soundPlayer.PlaySync();
             }
         }
