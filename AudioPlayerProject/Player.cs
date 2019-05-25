@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using System.Media;
 
 namespace AudioPlayerProject
 {
-    class Player
+    class Player : IDisposable
     {
         private bool _playing = false;
         private int _volume = 50;
@@ -16,11 +17,34 @@ namespace AudioPlayerProject
         public bool IsLock = false;
         public Playlist playlist = new Playlist();
         public Skin mySkin;
+        private SoundPlayer soundPlayer;
+        private bool disposed = false;
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                soundPlayer.Dispose();
+                disposed = true;
+            }
+        }
+
+        ~Player()
+        {
+            Dispose(false);
+        }
 
         public Player()
         {
             this.mySkin = new ClassicSkin();
             this.mySkin.Render();
+            soundPlayer = new SoundPlayer();
         }
 
         public bool Playing
@@ -48,12 +72,13 @@ namespace AudioPlayerProject
             }
         }
 
-        public void Play(Enum filter)
+        public void Play()
         {
             foreach (var file in playlist.FileList)
             {
-                Console.WriteLine(file.Title.CutStringExtension() + " " + file.Duration);
-                System.Threading.Thread.Sleep(file.Duration);
+                Console.WriteLine(file.Title.CutStringExtension());
+                soundPlayer.SoundLocation = file.Path + file.Title + ".wav";
+                soundPlayer.PlaySync();
             }
         }
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace AudioPlayerProject
 {
@@ -12,12 +12,7 @@ namespace AudioPlayerProject
         {
             Player player = new Player();
             player.LoadSongs("f://m//");
-            player.List();
-            player.SaveAsPlaylist("f://playlist.xml");
-            player.ClearList();
-            Console.WriteLine();
-            player.LoadPlaylist("f://playlist.xml");
-            player.List();
+            player.Play();
         }
     }
 }
